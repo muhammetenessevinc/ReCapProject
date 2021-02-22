@@ -1,0 +1,37 @@
+﻿using Entities.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Business.Constants
+{
+    public static class Messages
+    {
+        public static string CarAdded = "Ürün Eklendi";
+        public static string CarNameInvalid = "Ürün İsme Geçersiz";
+        public static string MaintenanceTime="sistem bakımda";
+        public static string CarsListed= "Ürünler listelendi";
+        public static string CarsDeleted = "Ürünler silindi";
+        public static string CarsUpdated = "Ürünler güncellendi";
+        //internal
+
+
+        public static string UserAdded = "Kişi Eklendi";
+        public static string UserDeleted = "Kişi silindi";
+        public static string UserUpdated = "Kişi güncellendi";
+
+
+
+        public static string CustomerAdded = "Müşteri Eklendi";
+        public static string CustomerDeleted = "Müşteri silindi";
+        public static string CustomerUpdated = "Müşteri güncellendi";
+
+
+
+        public static string RentalAdded = "Kiralama İşlemi Eklendi";
+        public static string RentalDeleted = "Kiralama İşlemi Silindi";
+        public static string RentalUpdated = "Kiralama İşlemi Güncellendi";
+        public static string RentalUndeliveredCar = "Araç Henüz Teslim Edilmedi";
+
+    }
+}
