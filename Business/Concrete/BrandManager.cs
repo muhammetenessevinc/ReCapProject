@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,16 +21,12 @@ namespace Business.Concrete
             _brand = brand;
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
-            if (brand.BrandName.Length > 2)
-            {
-                _brand.Add(brand);
-            }
-            else
-            {
-                Console.WriteLine("hata");
-            }
+
+            
+            _brand.Add(brand);
             return new Result(true, Messages.BrandAdded);
         }
 
