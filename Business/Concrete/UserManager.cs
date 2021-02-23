@@ -32,7 +32,7 @@ namespace Business.Concrete
 
         public IDataResult<User> GatById(int id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == id));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == id));
         }
 
         public IDataResult<List<User>> GetAll()

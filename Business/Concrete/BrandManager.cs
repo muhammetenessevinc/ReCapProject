@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,7 +18,7 @@ namespace Business.Concrete
             _brand = brand;
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
             if (brand.BrandName.Length > 2)
             {
@@ -26,26 +28,36 @@ namespace Business.Concrete
             {
                 Console.WriteLine("hata");
             }
+            return new Result(true, Messages.BrandAdded);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             _brand.Delete(brand);
+            return new Result(true, Messages.BrandDeleted);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brand.GetAll();
+            //return _brand.GetAll();
+            return new SuccessDataResult<List<Brand>>(_brand.GetAll(), Messages.BrandListed);
         }
 
-        public Brand GetCarsByBrandId(int brandId)
+        public IDataResult<Brand> GetCarsByBrandId(int brandId)
         {
-            return _brand.Get(b=>b.BrandId==brandId);
+            //return _brand.Get(b=>b.BrandId==brandId);
+            return new SuccessDataResult<Brand>(_brand.Get(b => b.BrandId == brandId ));
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             _brand.Update(brand);
+            return new Result(true, Messages.BrandUpdated);
         }
+
+        //IDataResult<List<Brand>> IBrandService.GetCarsByBrandId(int brandId)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
