@@ -47,5 +47,9 @@ namespace Business.Constants
         public static string ColorDeleted = "Renk silindi";
         public static string ColorUpdated = "Renk güncellendi";
         public static string ColorListed = "Renkler Listelendi";
+
+
+
+        public static string ImageLimit="Resim Ekleme Sınırı Aşıldı";
     }
 }
