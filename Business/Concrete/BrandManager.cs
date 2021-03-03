@@ -57,9 +57,6 @@ namespace Business.Concrete
             return new Result(true, Messages.BrandUpdated);
         }
 
-        //IDataResult<List<Brand>> IBrandService.GetCarsByBrandId(int brandId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        
     }
 }
