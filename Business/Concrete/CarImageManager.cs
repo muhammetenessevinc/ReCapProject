@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Core.Utilities.Helpers;
 using System.IO;
 using System.Linq;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -24,7 +25,7 @@ namespace Business.Concrete
         {
             _carImageDal = carImageDal;
         }
-
+        [SecuredOperation("Manager,Admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file,CarImage carImage)
         {
@@ -38,6 +39,7 @@ namespace Business.Concrete
             _carImageDal.Add(carImage);
             return new SuccessResult();
         }
+        [SecuredOperation("Manager,Admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Delete(CarImage carImage)
         {
@@ -49,23 +51,24 @@ namespace Business.Concrete
             _carImageDal.Delete(carImage);
             return new SuccessResult();
         }
+        [SecuredOperation("Manager,Admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IDataResult<CarImage> Get(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.Id == id));
         }
-
+        [SecuredOperation("Manager.getall,Manager,Admin")]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
-
+        [SecuredOperation("Manager,Admin")]
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
             return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id));
         }
 
-
+        [SecuredOperation("Manager,Admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
@@ -86,7 +89,7 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-
+        
         private IResult CarImageDelete(CarImage carImage)
         {
             try
