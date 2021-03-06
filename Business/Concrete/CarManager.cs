@@ -16,6 +16,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -28,10 +29,11 @@ namespace Business.Concrete
             _iCarDal = iCarDal;
         }
 
-     
 
-        [SecuredOperation("Manager,Admin")]
+
+        [SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
            
@@ -41,8 +43,9 @@ namespace Business.Concrete
 
             return new Result(true, Messages.CarAdded);
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             _iCarDal.Delete(car);
@@ -61,7 +64,7 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(),Messages.CarsListed);
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
@@ -71,32 +74,34 @@ namespace Business.Concrete
             _iCarDal.Update(car);
             return new Result(true, Messages.CarsUpdated);
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetail());
         }
 
 
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         [CacheAspect]
+        //[PerformanceAspect(1)]
         public IDataResult<Car> GetById(int carId)
         {
+            
             return new SuccessDataResult<Car> (_iCarDal.Get(c=>c.Id== carId));
         }
 
 
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         public IDataResult<List<Car>> GetCarByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.BrandId == id));
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         public IDataResult<List<Car>> GetCarByColorId(int id)
         {
             return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.ColorId == id));
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
         public IDataResult<List<Car>> GetCarDailyPrice(int min, int max)
         {
             return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));

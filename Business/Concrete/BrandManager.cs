@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
@@ -21,7 +22,8 @@ namespace Business.Concrete
         {
             _brand = brand;
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
+        [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
@@ -30,27 +32,39 @@ namespace Business.Concrete
             _brand.Add(brand);
             return new Result(true, Messages.BrandAdded);
         }
-        [SecuredOperation("Manager,Admin")]
+
+
+        [SecuredOperation("manager,admin")]
+        [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Delete(Brand brand)
         {
             _brand.Delete(brand);
             return new Result(true, Messages.BrandDeleted);
         }
-        [SecuredOperation("Manager.getall,Manager,Admin")]
+
+
+        [SecuredOperation("admin,manager,manager.getall")]
+        [CacheAspect]
         public IDataResult<List<Brand>> GetAll()
         {
             //return _brand.GetAll();
             return new SuccessDataResult<List<Brand>>(_brand.GetAll(), Messages.BrandListed);
         }
-        [SecuredOperation("Manager,Admin")]
+
+
+        [SecuredOperation("manager,admin")]
+        [CacheAspect]
         public IDataResult<Brand> GetCarsByBrandId(int brandId)
         {
             //return _brand.Get(b=>b.BrandId==brandId);
             return new SuccessDataResult<Brand>(_brand.Get(b => b.BrandId == brandId ));
         }
-        [SecuredOperation("Manager,Admin")]
+
+
+        [SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(BrandValidator))]
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Update(Brand brand)
         {
             _brand.Update(brand);

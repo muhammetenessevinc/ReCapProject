@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -25,29 +26,34 @@ namespace Business.Concrete
             if (result.Count > 0) return new ErrorDataResult<Rental>(Messages.RentalUndeliveredCar);
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CarId == carId));
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rental)
         {
             _rentalDal.Delete(rental);
             return new SuccessResult(Messages.RentalDeleted);
         }
-        [SecuredOperation("Manager.getall,Manager,Admin")]
+        [SecuredOperation("admin,manager,manager.getall")]
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
-        [SecuredOperation("Manager.getall,Manager,Admin")]
+        [SecuredOperation("admin,manager,manager.getall")]
+        [CacheAspect]
         public IDataResult<Rental> GetById(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r=>r.RentalId==id));
         }
-        [SecuredOperation("Manager,Admin")]
+        [SecuredOperation("manager,admin")]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
