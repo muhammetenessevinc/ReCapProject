@@ -2,6 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
@@ -45,7 +48,11 @@ namespace Business.Concrete
             _iCarDal.Delete(car);
             return new Result(true, Messages.CarsDeleted);
         }
-        [SecuredOperation("Admin,Manager,Manager.getall")]
+
+        
+        [SecuredOperation("admin,manager,manager.getall")]
+        [CacheAspect]
+        [PerformanceAspect(2)]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour==23)
@@ -56,6 +63,7 @@ namespace Business.Concrete
         }
         [SecuredOperation("Manager,Admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
 
@@ -68,7 +76,10 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetail());
         }
+
+
         [SecuredOperation("Manager,Admin")]
+        [CacheAspect]
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car> (_iCarDal.Get(c=>c.Id== carId));
@@ -91,6 +102,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
         }
 
-        
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car) //uygulamalarda tutarlılığı korumak için yapılan yöntemdir.
+        {
+            Add(car);
+            if (car.DailyPrice < 38)
+            {
+                throw new Exception();
+            }
+
+            Add(car);
+            return null;
+        }
     }
 }
