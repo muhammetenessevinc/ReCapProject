@@ -37,7 +37,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("admin,manager,manager.getall")]
+        //[SecuredOperation("admin,manager,manager.getall")]
         [CacheAspect]
         public IDataResult<List<Color>> GetAll()
         {

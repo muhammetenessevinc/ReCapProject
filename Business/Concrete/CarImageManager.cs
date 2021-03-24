@@ -21,12 +21,13 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         ICarImageDal _carImageDal;
-
+        
         public CarImageManager(ICarImageDal carImageDal)
         {
             _carImageDal = carImageDal;
+            
         }
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Add(IFormFile file,CarImage carImage)
@@ -58,7 +59,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IDataResult<CarImage> Get(int id)
         {
@@ -66,7 +67,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("admin,manager,manager.getall")]
+        //[SecuredOperation("admin,manager,manager.getall")]
         [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
@@ -74,11 +75,12 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("manager,admin")]
-        [CacheAspect]
-        public IDataResult<List<CarImage>> GetImagesByCarId(int id)
+        
+
+        public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
         {
-            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id));
+            
+            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(carId));
         }
 
 
@@ -120,15 +122,31 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private List<CarImage> CheckIfCarImageNull(int id)
+        
+
+
+        private List<CarImage> CheckIfCarImageNull(int carId)
         {
-            string path = @"\Images\logo.jpg";
-            var result = _carImageDal.GetAll(c => c.CarId == id).Any();
+            var path = @"\images\default.jpg";
+            var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
+
             if (!result)
             {
-                return new List<CarImage> { new CarImage { CarId = id, ImagePath = path, Date = DateTime.Now } };
+                return new List<CarImage>
+                    {
+                        new CarImage
+                        {
+                            CarId = carId,
+                            Date = DateTime.Now,
+                            ImagePath = path
+                        }
+                    };
             }
-            return _carImageDal.GetAll(p => p.CarId == id);
+
+            return _carImageDal.GetAll(c => c.CarId == carId);
         }
+
+
+
     }
 }

@@ -15,11 +15,11 @@ namespace DataAccess.Concrete.InMemory
         public InMemoryCarDal()
         {
             _cars = new List<Car> { 
-                new Car {Id=1, BrandId=10, ColorId=100, DailyPrice=19500, ModelYear=1986, Descriptions="Efsane Kasa" },
-                new Car {Id=2, BrandId=10, ColorId=105, DailyPrice=50000, ModelYear=2010, Descriptions="Keyfi Boyalı" },
-                new Car {Id=3, BrandId=30, ColorId=109, DailyPrice=45000, ModelYear=2009, Descriptions="Yaşıtlarının En İyisi" },
-                new Car {Id=4, BrandId=42, ColorId=153, DailyPrice=22350, ModelYear=1995, Descriptions="Hastasına" },
-                new Car {Id=5, BrandId=28, ColorId=111, DailyPrice=95900, ModelYear=2015, Descriptions="Daha İyisi Yok" }
+                new Car {Id=1, BrandId=10, ColorId=100, DailyPrice=19500, ModelYear="1986", Descriptions="Efsane Kasa" },
+                new Car {Id=2, BrandId=10, ColorId=105, DailyPrice=50000, ModelYear="2010", Descriptions="Keyfi Boyalı" },
+                new Car {Id=3, BrandId=30, ColorId=109, DailyPrice=45000, ModelYear="2009", Descriptions="Yaşıtlarının En İyisi" },
+                new Car {Id=4, BrandId=42, ColorId=153, DailyPrice=22350, ModelYear="1995", Descriptions="Hastasına" },
+                new Car {Id=5, BrandId=28, ColorId=111, DailyPrice=95900, ModelYear="2015", Descriptions="Daha İyisi Yok" }
             };
         }
 
@@ -57,6 +57,11 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public List<CarDetailDto> GetCarDetail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             throw new NotImplementedException();
         }

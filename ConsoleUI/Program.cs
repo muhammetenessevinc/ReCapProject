@@ -29,8 +29,8 @@ namespace ConsoleUI
             Rental rental = new Rental
             {
                 //Id = 3,
-                CarId = 5,
-                CustomerId = 3,
+                //CarId = 5,
+                //CustomerId = 3,
                 RentDate = DateTime.Now,
                 ReturnDate = null
             };
@@ -38,7 +38,7 @@ namespace ConsoleUI
             if (!result.Success) Console.WriteLine(result.Message);
             //rentalManager.Update(rental);
             //rentalManager.Delete(rental);
-            rentalManager.GetAll().Data.ForEach(r => Console.WriteLine(r.CarId + " " + r.RentDate));
+            //rentalManager.GetAll().Data.ForEach(r => Console.WriteLine(r.CarId + " " + r.RentDate));
             //foreach (var rental in rentalManager.GetAll().Data)
             //{
             //    Console.WriteLine(rental.CarId+"  "+rental.RentDate);
@@ -72,23 +72,23 @@ namespace ConsoleUI
             }
         }
 
-        private static void cartest1()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
+        //private static void cartest1()
+        //{
+        //    CarManager carManager = new CarManager(new EfCarDal());
 
-            var result = carManager.GetCarDetails();
-            if (result.Success)
-            {
-                foreach (var car in result.Data)
-                {
-                    Console.WriteLine(car.BrandName + car.CarName + car.ColorName);
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
-        }
+        //    var result = carManager.GetCarDetails();
+        //    if (result.Success)
+        //    {
+        //        foreach (var car in result.Data)
+        //        {
+        //            Console.WriteLine(car.BrandName + car.CarName + car.ColorName);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine(result.Message);
+        //    }
+        //}
 
         //private static void colortest()
         //{

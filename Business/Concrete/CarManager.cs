@@ -15,6 +15,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 
@@ -53,7 +54,7 @@ namespace Business.Concrete
         }
 
         
-        [SecuredOperation("admin,manager,manager.getall")]
+        //[SecuredOperation("admin,manager,manager.getall")]
         [CacheAspect]
         [PerformanceAspect(2)]
         public IDataResult<List<Car>> GetAll()
@@ -74,10 +75,10 @@ namespace Business.Concrete
             _iCarDal.Update(car);
             return new Result(true, Messages.CarsUpdated);
         }
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetail());
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails());
         }
 
 
@@ -91,16 +92,16 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("manager,admin")]
-        public IDataResult<List<Car>> GetCarByBrandId(int id)
-        {
-            return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.BrandId == id));
-        }
-        [SecuredOperation("manager,admin")]
-        public IDataResult<List<Car>> GetCarByColorId(int id)
-        {
-            return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.ColorId == id));
-        }
+        //[SecuredOperation("manager,admin")]
+        //public IDataResult<List<Car>> GetCarByBrandId(int id)
+        //{
+        //    return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.BrandId == id));
+        //}
+        //[SecuredOperation("manager,admin")]
+        //public IDataResult<List<Car>> GetCarByColorId(int id)
+        //{
+        //    return new SuccessDataResult<List<Car>> (_iCarDal.GetAll(c => c.ColorId == id));
+        //}
         [SecuredOperation("manager,admin")]
         public IDataResult<List<Car>> GetCarDailyPrice(int min, int max)
         {
@@ -118,6 +119,83 @@ namespace Business.Concrete
 
             Add(car);
             return null;
+        }
+
+        IDataResult<List<CarDetailDto>> ICarService.GetCarByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(c => c.ColorId == colorId));
+        }
+
+        IDataResult<List<CarDetailDto>> ICarService.GetCarByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(b => b.BrandId == brandId));
+        }
+
+        //public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public IDataResult<List<CarDetailDto>> GetAllByColorId(int colorId)
+        //{
+        //    return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(c => c.ColorId == colorId));
+        //}
+
+        //public IDataResult<List<CarDetailDto>> GetAllByBrandId(int brandId)
+        //{
+        //    return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetAll(c => c.BrandId == brandId));
+        //}
+
+
+
+
+
+        //public IDataResult<List<Car>> GetAllByColorId(int colorId)
+        //{
+        //    return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.ColorId == colorId));
+        //}
+
+        //public IDataResult<List<Car>> GetAllByBrandId(int brandId)
+        //{
+        //    return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.BrandId == brandId));
+        //}
+
+
+        //public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        //{
+        //    return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(filter));
+        //}
+
+        //public IDataResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
+        //{
+        //    return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(b => b.BrandId == brandId));
+        //}
+
+        //public IDataResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
+        //{
+        //    return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(co => co.ColorId == colorId));
+        //}
+
+
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrand(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(c => c.BrandId == brandId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColor(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(c => c.ColorId == colorId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorAndByBrand(int colorId, int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(c => c.ColorId == colorId && c.BrandId == brandId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsById(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(x => x.Id == carId));
         }
     }
 }

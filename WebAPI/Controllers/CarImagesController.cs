@@ -2,6 +2,8 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,15 +81,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getimagesbycarid")]
-        public IActionResult GetImagesById(int id)
+        public IActionResult GetImagesById( int carId)
         {
-            var result = _carImageService.GetImagesByCarId(id);
+            var result = _carImageService.GetImagesByCarId(carId);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-
+        //[FromForm(Name = ("CarId"))]
     }
 }

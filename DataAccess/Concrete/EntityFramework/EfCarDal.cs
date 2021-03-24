@@ -13,17 +13,30 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, NorthwindContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetail()
+        //public List<CarDetailDto> GetCarDetail()
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (NorthwindContext northwindContext = new NorthwindContext())
             {
-                var result = from c in northwindContext.Cars
-                             join b in northwindContext.Brands
-                             on c.BrandId equals b.BrandId
-                             join d in northwindContext.Colors
-                             on c.ColorId equals d.ColorId
-                             select new CarDetailDto {BrandId = b.BrandId, BrandName=b.BrandName,
-                                 ColorName= d.ColorName, CarName=c.Descriptions };
+                
+
+                var result = from car in filter == null ? northwindContext.Cars :northwindContext.Cars.Where(filter)
+                             join brand in northwindContext.Brands on car.BrandId equals brand.BrandId
+                             join color in northwindContext.Colors on car.ColorId equals color.ColorId
+                             select new CarDetailDto
+                             {
+                                 
+                                 BrandName = brand.BrandName,
+                                 DailyPrice = car.DailyPrice,
+                                 ColorName = color.ColorName,
+                                 Id=car.Id,
+                                 ModelYear=car.ModelYear,
+                                 BrandId=brand.BrandId,
+                                 ColorId=color.ColorId,
+                                 CarId=brand.BrandId,
+                                 ImagePath = northwindContext.CarImages.Where(image => image.CarId == car.Id).ToList()
+
+                             };
                 return result.ToList();
             }
         }
