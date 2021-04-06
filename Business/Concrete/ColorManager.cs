@@ -19,7 +19,7 @@ namespace Business.Concrete
         {
             _color = color;
         }
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [CacheRemoveAspect("IColorService.Get")]
         public IResult Add(Color color)
         {
@@ -55,7 +55,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(Color color)
         {

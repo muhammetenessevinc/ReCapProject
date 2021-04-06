@@ -18,16 +18,19 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from rental in northwindContext.Rentals
                              //join customer in northwindContext.Customers on user.UserId equals customer.CustomerId
                              join user in northwindContext.Users on rental.UserId equals user.UserId
-                             join brand in northwindContext.Brands on rental.BrandId equals brand.BrandId
+                             //join brand in northwindContext.Brands on rental.BrandId equals brand.BrandId
+                             join car in northwindContext.Cars on rental.CarId equals car.Id
 
                              select new RentalDetailDto
                              {
-                                 CarModel = brand.BrandName,
+                                 //CarModel = brand.BrandName,
                                  FullName = user.FirstName+" "+user.LastName,
                                  RentDate = rental.RentDate,
                                  ReturnDate = rental.ReturnDate,
                                  RentalId = rental.RentalId,
-
+                                 CarId = car.Id,
+                                 UserId = user.UserId
+                                    
 
                              };
 

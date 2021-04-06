@@ -8,8 +8,10 @@ namespace Entities.DTOs
     public class RentalDetailDto:IDto
     {
         public int RentalId { get; set; }
-        public string CarModel { get; set; }
+        //public string CarModel { get; set; }
         public string FullName { get; set; }
+        public int CarId { get; set; }
+        public int UserId { get; set; }
         public DateTime RentDate { get; set; }
         public DateTime? ReturnDate { get; set; }
 

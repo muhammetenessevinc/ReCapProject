@@ -22,7 +22,7 @@ namespace Business.Concrete
         {
             _brand = brand;
         }
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
@@ -62,7 +62,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("manager,admin")]
+        //[SecuredOperation("manager,admin")]
         [ValidationAspect(typeof(BrandValidator))]
         [CacheRemoveAspect("IBrandService.Get")]
         public IResult Update(Brand brand)

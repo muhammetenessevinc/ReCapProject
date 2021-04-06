@@ -9,7 +9,7 @@ namespace Business.Constants
 {
     public static class Messages
     {
-        public static string CarAdded = "Ürün Eklendi";
+        public static string CarAdded = "Araç Eklendi";
         public static string CarNameInvalid = "Ürün İsme Geçersiz";
         public static string MaintenanceTime="sistem bakımda";
         public static string CarsListed= "Ürünler listelendi";
@@ -69,5 +69,22 @@ namespace Business.Constants
         public static string RolesCame = "Roller Geldi";
         public static string UserGetById = "Id' ye göre Listeleme Yapıldı";
         public static string UserGetAll = "Tümü Listelendi";
+
+
+
+        public static string CreditCardAdded = "Kartınızdan Ücret Tahsil Edilmiştir";
+        public static string CreditCardDeleted = "CART silindi";
+        public static string CreditCardUpdated = "CART güncellendi";
+        public static string CreditCardListed = "CART listelendi";
+
+
+
+        public static string ErrorRent = "Araç şuanda başka bir kişide lütfen aracın iade eilmesini bekleyin yada farklı bir araç seçiniz";
+
+
+
+
+        public static string RentalInValid = "";
+        public static string CarIsRentable = "";
     }
 }

@@ -77,10 +77,10 @@ namespace Business.Concrete
 
         
 
-        public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
+        public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
             
-            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(carId));
+            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id));
         }
 
 

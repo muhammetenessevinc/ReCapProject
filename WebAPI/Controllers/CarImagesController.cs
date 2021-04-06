@@ -81,9 +81,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getimagesbycarid")]
-        public IActionResult GetImagesById( int carId)
+        public IActionResult GetImagesById( int id)
         {
-            var result = _carImageService.GetImagesByCarId(carId);
+            var result = _carImageService.GetImagesByCarId(id);
             if (result.Success)
             {
                 return Ok(result);
